@@ -47,6 +47,13 @@ Estudo FISCO GO/
 - **Legislação Oficial:** Lê o edital e utiliza `legislation_search.py` para salvar links diretos da CF e Leis Secas do portal do Planalto/Sefaz.
 - **Hype (Atualidades):** Executa `hype_search.py` para descobrir resumos, vlogs e dicas quentes nos canais de grandes cursos (Estratégia, Direção, Gran).
 
-## 🚀 Como Executar
+## ⚙️ Gerenciamento do Projeto
+
+Para tornar a estrutura escalável e reutilizável a cada novo ciclo de estudos, dois scripts principais estão disponíveis na raiz do projeto:
+
+- `python carregar_edital.py "caminho/para/o/edital_novo.pdf"`: Copia e prepara o novo edital para a pasta `materiais/editais/`.
+- `python resetar_estudos.py`: Limpa todo o ambiente criado (esvazia `legislacao/`, `hype/`, `editais/` e apaga relatórios soltos), deixando o repositório pronto para um novo edital.
+
+## 🚀 Como Executar os Agentes
 
 Cada diretório de habilidade contém seu respectivo `SKILL.md`. Alimente este arquivo em seu agente de IA preferido para executar a automação e abastecer a pasta `materiais/` com links e PDFs de alta qualidade.
