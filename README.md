@@ -1,48 +1,51 @@
-# Concurso Videoaulas Curator
+# Toolkit para Concursos (FISCO GO)
 
-Esta é uma habilidade de curadoria para buscar, avaliar e organizar videoaulas e provas para concursos (ex: SEFAZ GO).
+Este repositório contém agentes e ferramentas de curadoria para auxiliar na preparação para concursos públicos (ex: SEFAZ GO).
 
 ## Estrutura do Projeto
 
 ```text
 Estudo FISCO GO/
-├── concurso-videoaulas-curator/
-│   ├── SKILL.md                          # Instruções principais (4.4 KB)
-│   ├── scripts/                          # Scripts executáveis
-│   │   ├── youtube_search.py             # Gera queries para videoaulas (1.5 KB)
-│   │   └── prova_search.py               # Gera queries para provas (1.4 KB)
-│   ├── references/                       # Documentação de referência
-│   │   ├── criterios_avaliacao.md        # Critérios de 1-5 estrelas (2.4 KB)
-│   │   └── padroes_bancas.md             # Padrões FCC, Cebraspe, FGV, Vunesp (3.0 KB)
-│   └── templates/                        # Modelos para saída
-│       ├── tabela_disciplinas.md         # Template de distribuição (970 B)
-│       ├── curadoria_videoaulas.md       # Template de guia (2.5 KB)
-│       └── prova_gerada.md               # Template de simulado (1.5 KB)
-├── materiais/                            # Materiais de estudo e editais
+├── concurso-videoaulas-curator/          # Habilidade: Curadoria de Videoaulas e Provas
+│   ├── SKILL.md                          
+│   ├── scripts/                          
+│   │   ├── youtube_search.py             
+│   │   └── prova_search.py               
+│   ├── references/                       
+│   │   ├── criterios_avaliacao.md        
+│   │   └── padroes_bancas.md             
+│   └── templates/                        
+│       ├── tabela_disciplinas.md         
+│       ├── curadoria_videoaulas.md       
+│       └── prova_gerada.md               
+├── edital-materials-curator/             # Habilidade: Legislação & Hype (Blogs/Vlogs)
+│   ├── SKILL.md                          
+│   ├── scripts/                          
+│   │   ├── legislation_search.py         
+│   │   └── hype_search.py                
+│   ├── references/                       
+│   │   └── fontes_confiaveis.md          
+│   └── templates/                        
+│       └── relatorio_materiais.md        
+├── materiais/                            # Materiais gerados e editais base
 │   ├── edital_de_abertura_versao_10_12_2025_revisado_cec.pdf
 │   ├── Guia_Definitivo_de_Videoaulas_Preparação_Assertiva_para_SEFAZ_GO_2026.pdf
-│   └── icms_mapa_mental.svg
-└── README.md                             # Documentação do projeto
+│   ├── icms_mapa_mental.svg
+│   ├── legislacao/                       # Textos de lei alimentados pelo agente
+│   └── hype/                             # Conteúdos em alta alimentados pelo agente
+└── README.md                             
 ```
 
-## Funcionamento
+## Funcionamento dos Agentes
 
-### 📚 Usuário pede videoaulas
-1. **Análise do Edital**: Buscar edital, identificar disciplinas e classificar por prioridade (🔴🟠🟡).
-2. **Busca Assertiva**: Usar `youtube_search.py` para buscar no YouTube e extrair links.
-3. **Avaliação**: Classificar o conteúdo de 1 a 5 estrelas baseado em `criterios_avaliacao.md`.
-4. **Estruturação**: Formatar com `tabela_disciplinas.md` e `curadoria_videoaulas.md`, criando um cronograma.
-5. **Entrega**: Fornecer o resultado com o compilado e organizado profissionalmente.
+### 1. Concurso Videoaulas Curator
+- **Videoaulas:** Extrai disciplinas, avalia vídeos (1-5 estrelas) com base em `criterios_avaliacao.md` e monta cronograma.
+- **Provas:** Busca provas reais de bancas. Se não existirem, simula questões inéditas baseadas no padrão da banca e gera o PDF.
 
-### 📝 Usuário pede provas
-1. **Busca de Provas Reais**: Usar `prova_search.py` para buscas especializadas. Se encontrar aprovada, entrega o PDF original.
-2. **Se NÃO encontrar**: 
-   - Ler os padrões em `padroes_bancas.md`.
-   - Gerar simulado inédito usando `prova_gerada.md`.
-   - Criar questões e incluir gabarito comentado.
-3. **Exportação**: Converter as anotações para um PDF final.
-4. **Entrega**: Enviar o PDF completo ao usuário.
+### 2. Edital Materials Curator
+- **Legislação Oficial:** Lê o edital e utiliza `legislation_search.py` para salvar links diretos da CF e Leis Secas do portal do Planalto/Sefaz.
+- **Hype (Atualidades):** Executa `hype_search.py` para descobrir resumos, vlogs e dicas quentes nos canais de grandes cursos (Estratégia, Direção, Gran).
 
-## 🚀 Execução da Habilidade
+## 🚀 Como Executar
 
-A habilidade irá rodar localmente no agente utilizando o arquivo `SKILL.md` como guia. Use esta organização de pastas para disponibilizar o código em um repositório no GitHub para uso em outras infraestruturas.
+Cada diretório de habilidade contém seu respectivo `SKILL.md`. Alimente este arquivo em seu agente de IA preferido para executar a automação e abastecer a pasta `materiais/` com links e PDFs de alta qualidade.
