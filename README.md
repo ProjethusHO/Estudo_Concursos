@@ -28,11 +28,12 @@ Estudo FISCO GO/
 │   └── templates/                        
 │       └── relatorio_materiais.md        
 ├── materiais/                            # Materiais gerados e editais base
-│   ├── edital_de_abertura_versao_10_12_2025_revisado_cec.pdf
-│   ├── Guia_Definitivo_de_Videoaulas_Preparação_Assertiva_para_SEFAZ_GO_2026.pdf
-│   ├── icms_mapa_mental.svg
+│   ├── editais/                          # Editais dos certames
+│   │   └── edital_de_abertura_versao_10_12_2025_revisado_cec.pdf
 │   ├── legislacao/                       # Textos de lei alimentados pelo agente
-│   └── hype/                             # Conteúdos em alta alimentados pelo agente
+│   ├── hype/                             # Conteúdos em alta alimentados pelo agente
+│   ├── Guia_Definitivo_de_Videoaulas_Preparação_Assertiva_para_SEFAZ_GO_2026.pdf
+│   └── icms_mapa_mental.svg
 └── README.md                             
 ```
 
