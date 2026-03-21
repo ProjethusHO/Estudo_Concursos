@@ -1,0 +1,121 @@
+import json
+import os
+
+def generate_blog_html(data_json_path, output_path):
+    # Mock data directly if JSON not easily accessible or as fallback
+    # But I'll use the data I've been working with.
+    
+    html_template = """
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+            body {{ font-family: 'Inter', sans-serif; background-color: #0d0d0d; color: white; }}
+            .netflix-red {{ color: #E50914; }}
+            .bg-netflix-red {{ background-color: #E50914; }}
+            .glass {{ background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }}
+        </style>
+    </head>
+    <body class="p-4 md:p-10">
+        <div class="max-w-5xl mx-auto space-y-12">
+            <header class="text-center space-y-4">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter netflix-red">CURADORIA <span class="text-white">FISCAL</span></h1>
+                <p class="text-gray-400 text-lg">Materiais de Elite para SEFAZ-GO & SEFAZ-SP</p>
+                <div class="h-1 w-20 bg-netflix-red mx-auto"></div>
+            </header>
+
+            <!-- Hype Section -->
+            <section class="glass rounded-3xl p-8 border-l-8 border-netflix-red shadow-2xl">
+                <h2 class="text-2xl font-black mb-6 italic">🔥 TENDÊNCIAS & HYPE (COMUNIDADE)</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-black bg-opacity-40 p-5 rounded-2xl border border-gray-800">
+                        <p class="text-sm italic text-gray-300">"O edital da SEFAZ GO veio pesado em TI. Foquem em Séries Temporais!"</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-xs font-bold text-netflix-red">@Fisco_Guru</span>
+                            <span class="text-[10px] bg-red-900 px-2 py-0.5 rounded text-red-200">YOUTUBE</span>
+                        </div>
+                    </div>
+                    <div class="bg-black bg-opacity-40 p-5 rounded-2xl border border-gray-800">
+                        <p class="text-sm italic text-gray-300">"A LC 214/2025 é leitura obrigatória para Auditor. Mudou tudo no IBS."</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-xs font-bold text-netflix-red">@Concurseiro_Hype</span>
+                            <span class="text-[10px] bg-purple-900 px-2 py-0.5 rounded text-purple-200">HIPPY</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subjects Section -->
+            <section class="space-y-10">
+                <h2 class="text-3xl font-black border-b border-gray-800 pb-4">📚 VIDEOAULAS SELECIONADAS</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Video 1 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative rounded-xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-netflix-red transition-all">
+                            <img src="https://img.youtube.com/vi/sTERnH0hAZc/maxresdefault.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button class="bg-white text-black font-black px-6 py-2 rounded-full uppercase text-xs">Assistir Agora</button>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg">Legislação Tributária - Questões Avançadas FCC</h3>
+                        <p class="text-sm text-gray-500">Prof. Eliezer Santos | SEFAZ GO</p>
+                    </div>
+
+                    <!-- Video 2 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative rounded-xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-netflix-red transition-all">
+                            <img src="https://img.youtube.com/vi/CnWqHStOiFE/maxresdefault.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button class="bg-white text-black font-black px-6 py-2 rounded-full uppercase text-xs">Assistir Agora</button>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg">Reforma Tributária 2025 - LC 214/2025</h3>
+                        <p class="text-sm text-gray-500">Prof. Carlos André | Área Fiscal</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Provas Section -->
+            <section class="glass rounded-3xl p-8 bg-opacity-10">
+                <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter">📂 BANCO DE PROVAS (ROOT PATH)</h2>
+                <div class="space-y-4 font-mono text-sm">
+                    <div class="flex items-center space-x-2 text-netflix-red">
+                        <span>📁</span>
+                        <span class="font-bold">SEFAZ_GO_2025/</span>
+                    </div>
+                    <div class="ml-8 space-y-2 border-l border-gray-800 pl-4">
+                        <div class="text-gray-400">📄 <a href="https://www.pciconcursos.com.br/provas/fcc/auditor-fiscal/" class="hover:text-white transition-colors">simulado_fcc_auditor.pdf</a></div>
+                        <div class="text-gray-400">📄 <a href="https://www.qconcursos.com/questoes-de-concursos/questoes?q=ICMS%20Goi%C3%A1s" class="hover:text-white transition-colors">questoes_icms_goias.link</a></div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2 text-netflix-red mt-6">
+                        <span>📁</span>
+                        <span class="font-bold">TECNOLOGIA_DA_INFORMACAO/</span>
+                    </div>
+                    <div class="ml-8 space-y-2 border-l border-gray-800 pl-4">
+                        <div class="text-gray-400">📄 <a href="https://www.qconcursos.com/questoes-de-concursos/questoes?q=Python%20Ciencia%20de%20Dados" class="hover:text-white transition-colors">python_data_science_questoes.link</a></div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center py-10 border-t border-gray-900">
+                <p class="text-xs text-gray-500 uppercase tracking-widest">© 2026 Antigravity Edits - Curadoria Premium</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    """
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html_template)
+    
+    print(f"✅ Relatório para Blogspot gerado em: {output_path}")
+
+if __name__ == "__main__":
+    out_path = r"c:\Users\Jarvis\Downloads\Estudo Concursos\relatorio_blogspot.html"
+    generate_blog_html("", out_path)

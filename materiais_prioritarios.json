@@ -1,0 +1,99 @@
+[
+  {
+    "categoria": "Legislação Tributária Estadual",
+    "videos": [
+      {
+        "id": "v1",
+        "titulo": "Legislação Tributária (Todos os Fiscos) - Questões Avançadas FCC",
+        "professor": "Eliezer Santos",
+        "url": "https://www.youtube.com/watch?v=sTERnH0hAZc",
+        "tags": ["FCC", "Questões", "LTE"]
+      },
+      {
+        "id": "v2",
+        "titulo": "Aprofundamento ICMS #1 - SEFAZ-GO",
+        "professor": "Eliezer Santos",
+        "url": "https://www.youtube.com/watch?v=jNnPaBU8Jm4",
+        "tags": ["ICMS", "Goiás", "Teoria"]
+      }
+    ],
+    "provas": [
+      {
+        "id": "p1",
+        "titulo": "Auditor Fiscal - SEFAZ SE (FCC)",
+        "ano": "2024",
+        "url": "https://www.pciconcursos.com.br/provas/fcc/auditor-fiscal/"
+      },
+      {
+        "id": "p2",
+        "titulo": "Assembleia Legislativa PR (FCC)",
+        "ano": "2024",
+        "url": "https://www.pciconcursos.com.br/provas/fcc/"
+      }
+    ],
+    "comentarios": [
+      {
+        "id": "c1",
+        "usuario": "Hype_Fiscal",
+        "texto": "A FCC está cobrando cada vez mais a parte prática de substituição tributária. Fiquem atentos ao Anexo VIII do RCTE-GO.",
+        "fonte": "YouTube"
+      }
+    ]
+  },
+  {
+    "categoria": "Tecnologia da Informação",
+    "videos": [
+      {
+        "id": "v3",
+        "titulo": "Fluência em Dados - TI para Fiscos",
+        "professor": "Sérgio Sierro",
+        "url": "https://www.youtube.com/watch?v=vcEJFPjIa0k",
+        "tags": ["Dados", "Big Data", "Fiscos"]
+      }
+    ],
+    "provas": [
+      {
+        "id": "p3",
+        "titulo": "Analista de TI - ALEPR (FCC)",
+        "ano": "2024",
+        "url": "https://www.pciconcursos.com.br/provas/fcc/"
+      }
+    ],
+    "comentarios": [
+      {
+        "id": "c2",
+        "usuario": "Data_Auditor",
+        "texto": "Para o SEFAZ GO, não negligenciem Python e Séries Temporais. A FCC mudou o patamar de cobrança em TI.",
+        "fonte": "Redes Sociais"
+      }
+    ]
+  },
+  {
+    "categoria": "Reforma Tributária (IBS e CBS)",
+    "videos": [
+      {
+        "id": "v4",
+        "titulo": "Lei Complementar 214/2025 - Aula 01",
+        "professor": "Carlos André",
+        "url": "https://www.youtube.com/watch?v=CnWqHStOiFE",
+        "tags": ["LC 214", "Reforma", "IBS/CBS"]
+      }
+    ],
+    "provas": [
+      {
+        "id": "p4",
+        "titulo": "Simulado Reforma Tributária 2025",
+        "ano": "2025",
+        "url": "https://www.estrategiaconcursos.com.br/blog/reforma-tributaria-questoes/"
+      }
+    ],
+    "comentarios": [
+      {
+        "id": "c3",
+        "usuario": "Reforma_Guru",
+        "texto": "O foco agora é entender a transição. IBS e CBS vão dominar as provas de Direito Tributário II nos próximos 2 anos.",
+        "fonte": "Hype"
+      }
+    ]
+  }
+]

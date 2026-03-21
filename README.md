@@ -1,11 +1,11 @@
-# Toolkit para Concursos (FISCO GO)
+# Toolkit para Concursos
 
-Este repositório contém agentes e ferramentas de curadoria para auxiliar na preparação para concursos públicos (ex: SEFAZ GO).
+Este repositório contém agentes e ferramentas de curadoria para auxiliar na preparação para concursos públicos de forma geral.
 
 ## Estrutura do Projeto
 
 ```text
-Estudo FISCO GO/
+Estudo Concursos/
 ├── concurso-videoaulas-curator/          # Habilidade: Curadoria de Videoaulas e Provas
 │   ├── SKILL.md                          
 │   ├── scripts/                          

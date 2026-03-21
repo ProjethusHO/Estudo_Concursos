@@ -1,0 +1,33 @@
+{
+  "app_name": "Concurso Questoes Curator",
+  "description": "Agente integrado com QConcursos para busca de questões agrupadas por assunto.",
+  "version": "1.0.0",
+  "data_sources": [
+    {
+      "name": "QConcursos_Integration",
+      "type": "REST_API",
+      "endpoint": "https://www.qconcursos.com/questoes-de-concursos/questoes",
+      "method": "GET"
+    }
+  ],
+  "actions": [
+    {
+      "name": "Gerar_URL_Busca",
+      "type": "AppScript",
+      "description": "Gera URL pré-configurada para o QConcursos",
+      "script_body": "function gerarUrlQConcursos(disciplina, assunto, banca) { var baseUrl = 'https://www.qconcursos.com/questoes-de-concursos/questoes?'; var params = []; var query = []; if (disciplina) query.push(disciplina); if (assunto) query.push(assunto); if (query.length > 0) params.push('q=' + encodeURIComponent(query.join(' '))); var bancasMap = {'FCC': '2', 'CEBRASPE': '1', 'FGV': '3', 'VUNESP': '4'}; if (banca && bancasMap[banca.toUpperCase()]) { params.push('examining_board_ids[]=' + bancasMap[banca.toUpperCase()]); } params.push('with_commented_feedback=true'); return baseUrl + params.join('&'); }"
+    }
+  ],
+  "ui_views": [
+    {
+      "name": "Busca_Questoes",
+      "type": "Form",
+      "fields": [
+        {"name": "Disciplina", "type": "Text", "required": true},
+        {"name": "Assunto", "type": "Text", "required": false},
+        {"name": "Banca", "type": "Enum", "options": ["FCC", "CEBRASPE", "FGV", "VUNESP", "Outra"]},
+        {"name": "Link_Gerado", "type": "Url", "computed": "Gerar_URL_Busca([Disciplina], [Assunto], [Banca])"}
+      ]
+    }
+  ]
+}

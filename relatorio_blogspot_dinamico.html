@@ -1,0 +1,144 @@
+
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Curadoria Fiscal Dinâmica</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+            body { font-family: 'Inter', sans-serif; background-color: #0d0d0d; color: white; }
+            .netflix-red { color: #E50914; }
+            .bg-netflix-red { background-color: #E50914; }
+            .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+            .shimmer {
+                background: linear-gradient(90deg, #1a1a1a 0%, #333 50%, #1a1a1a 100%);
+                background-size: 200% 100%;
+                animation: shimmer 2s infinite;
+            }
+            @keyframes shimmer {
+                0% { background-position: -200% 0; }
+                100% { background-position: 200% 0; }
+            }
+        </style>
+    </head>
+    <body class="p-4 md:p-10">
+        <div class="max-w-5xl mx-auto space-y-12">
+            <header class="text-center space-y-4">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter netflix-red">CURADORIA <span class="text-white">LIVE</span></h1>
+                <p class="text-gray-400 text-lg uppercase tracking-widest text-xs">Sincronizado com o GitHub</p>
+                <div class="h-1 w-20 bg-netflix-red mx-auto"></div>
+            </header>
+
+            <!-- Loading State -->
+            <div id="loading" class="space-y-8 animate-pulse">
+                <div class="h-48 glass rounded-3xl shimmer"></div>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="h-40 glass rounded-xl shimmer"></div>
+                    <div class="h-40 glass rounded-xl shimmer"></div>
+                </div>
+            </div>
+
+            <div id="content" class="hidden space-y-12">
+                <!-- Hype Section -->
+                <section id="hype-section" class="glass rounded-3xl p-8 border-l-8 border-netflix-red shadow-2xl">
+                    <h2 class="text-2xl font-black mb-6 italic">🔥 TENDÊNCIAS & HYPE</h2>
+                    <div id="hype-grid" class="grid md:grid-cols-2 gap-6"></div>
+                </section>
+
+                <!-- Videos Section -->
+                <section class="space-y-10">
+                    <h2 class="text-3xl font-black border-b border-gray-800 pb-4 uppercase tracking-tighter">📚 Materiais do Edital</h2>
+                    <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+                </section>
+
+                <!-- Provas Section -->
+                <section id="provas-section" class="glass rounded-3xl p-8 bg-opacity-10">
+                    <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter">📂 Provas e Questões</h2>
+                    <div id="provas-tree" class="space-y-6 font-mono text-sm border-l border-gray-800 pl-4"></div>
+                </section>
+            </div>
+
+            <footer class="text-center py-10 border-t border-gray-900 opacity-50">
+                <p class="text-[10px] uppercase tracking-[0.3em]">© 2026 Antigravity Live - <a href="https://github.com/NOME_USUARIO/NOME_REPOSITORIO" class="underline">Ver Código no GitHub</a></p>
+            </footer>
+        </div>
+
+        <script>
+            const DATA_URL = "https://raw.githubusercontent.com/NOME_USUARIO/NOME_REPOSITORIO/main/materiais_prioritarios.json";
+
+            async function loadData() {
+                try {
+                    const response = await fetch(DATA_URL);
+                    if (!response.ok) throw new Error("Falha ao carregar dados do GitHub");
+                    const data = await response.json();
+                    renderContent(data);
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById("loading").innerHTML = `
+                        <div class="text-center py-10 bg-red-900 bg-opacity-20 rounded-xl border border-red-500">
+                            <p class="text-red-400 font-bold">Erro ao sincronizar com o GitHub.</p>
+                            <p class="text-xs text-gray-500 mt-2">Verifique se o repositório é público e o link do JSON está correto.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            function renderContent(data) {
+                const hypeGrid = document.getElementById("hype-grid");
+                const videoGrid = document.getElementById("video-grid");
+                const provasTree = document.getElementById("provas-tree");
+
+                // Render Hype
+                data.forEach(cat => {
+                    if (cat.comentarios) {
+                        cat.comentarios.forEach(c => {
+                            hypeGrid.innerHTML += `
+                                <div class="bg-black bg-opacity-40 p-5 rounded-2xl border border-gray-800">
+                                    <p class="text-sm italic text-gray-300">"${c.texto}"</p>
+                                    <div class="mt-4 flex justify-between items-center">
+                                        <span class="text-xs font-bold text-netflix-red underline">@${c.usuario}</span>
+                                        <span class="text-[10px] bg-red-900 px-2 py-0.5 rounded text-red-100 uppercase font-black">${c.fonte}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    // Render Videos
+                    if (cat.videos) {
+                        cat.videos.forEach(v => {
+                            const videoId = v.url.split('v=')[1];
+                            videoGrid.innerHTML += `
+                                <div class="group border border-gray-900 p-2 rounded-2xl hover:bg-gray-900 transition-all">
+                                    <div class="relative rounded-xl overflow-hidden mb-4 aspect-video">
+                                        <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-700">
+                                    </div>
+                                    <h3 class="font-bold text-sm text-gray-200">${v.titulo}</h3>
+                                    <p class="text-[10px] text-netflix-red font-black mt-1 uppercase">${cat.categoria}</p>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    // Render Provas
+                    if (cat.provas) {
+                        let provasHtml = `<div class="mb-4"><span class="text-netflix-red font-bold">📁 ${cat.categoria}</span><div class="ml-4 space-y-1 mt-1">`;
+                        cat.provas.forEach(p => {
+                            provasHtml += `<div class="text-gray-500">📄 <a href="${p.url}" target="_blank" class="hover:text-white">${p.titulo} (${p.ano})</a></div>`;
+                        });
+                        provasHtml += `</div></div>`;
+                        provasTree.innerHTML += provasHtml;
+                    }
+                });
+
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("content").classList.remove("hidden");
+            }
+
+            loadData();
+        </script>
+    </body>
+    </html>
+    
