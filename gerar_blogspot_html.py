@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 def generate_blog_html(data_json_path, output_path):
     # Mock data directly if JSON not easily accessible or as fallback
@@ -117,5 +118,6 @@ def generate_blog_html(data_json_path, output_path):
     print(f"✅ Relatório para Blogspot gerado em: {output_path}")
 
 if __name__ == "__main__":
-    out_path = r"c:\Users\Jarvis\Downloads\Estudo Concursos\relatorio_blogspot.html"
-    generate_blog_html("", out_path)
+    # Caminho de saída relativo ao diretório do próprio script (portável e seguro)
+    out_path = Path(__file__).parent / "relatorio_blogspot.html"
+    generate_blog_html("", str(out_path))

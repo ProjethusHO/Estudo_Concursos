@@ -1,0 +1,77 @@
+# =============================================================
+# .gitignore global — Estudo_Concursos
+# Protege contra commit acidental de arquivos sensíveis
+# =============================================================
+
+# --- Credenciais e Segredos ---
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa
+id_rsa.pub
+*.credentials
+secrets.json
+config.secret.*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+venv/
+.venv/
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# --- Node.js ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Editores e IDEs ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Arquivos temporários ---
+tmp_*.py
+tmp_*.html
+tmp_*.json
+*.tmp
+*.bak
+
+# --- Materiais gerados (conteúdo dinâmico, não versionar) ---
+materiais/editais/
+materiais/legislacao/
+materiais/hype/

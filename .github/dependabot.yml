@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # Monitorar dependências do projeto Node.js (biblioteca-videos)
+  - package-ecosystem: "npm"
+    directory: "/biblioteca-videos"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "security"
+      - "dependencies"
+    commit-message:
+      prefix: "chore(deps)"

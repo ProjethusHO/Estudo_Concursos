@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 def generate_dynamic_blog_html(output_path, github_user="NOME_USUARIO", github_repo="NOME_REPOSITORIO"):
     # URL base para buscar o JSON do GitHub
@@ -91,51 +92,118 @@ def generate_dynamic_blog_html(output_path, github_user="NOME_USUARIO", github_r
                 }}
             }}
 
+            // Utilitário de sanitização: escapa caracteres HTML para prevenir XSS
+            function escapeHtml(str) {{
+                if (typeof str !== 'string') return '';
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }}
+
             function renderContent(data) {{
                 const hypeGrid = document.getElementById("hype-grid");
                 const videoGrid = document.getElementById("video-grid");
                 const provasTree = document.getElementById("provas-tree");
 
-                // Render Hype
+                // Render Hype (usando escapeHtml para prevenir XSS)
                 data.forEach(cat => {{
                     if (cat.comentarios) {{
                         cat.comentarios.forEach(c => {{
-                            hypeGrid.innerHTML += `
-                                <div class="bg-black bg-opacity-40 p-5 rounded-2xl border border-gray-800">
-                                    <p class="text-sm italic text-gray-300">"${{c.texto}}"</p>
-                                    <div class="mt-4 flex justify-between items-center">
-                                        <span class="text-xs font-bold text-netflix-red underline">@${{c.usuario}}</span>
-                                        <span class="text-[10px] bg-red-900 px-2 py-0.5 rounded text-red-100 uppercase font-black">${{c.fonte}}</span>
-                                    </div>
-                                </div>
-                            `;
+                            const card = document.createElement('div');
+                            card.className = 'bg-black bg-opacity-40 p-5 rounded-2xl border border-gray-800';
+
+                            const texto = document.createElement('p');
+                            texto.className = 'text-sm italic text-gray-300';
+                            texto.textContent = '"' + c.texto + '"';
+
+                            const meta = document.createElement('div');
+                            meta.className = 'mt-4 flex justify-between items-center';
+
+                            const usuario = document.createElement('span');
+                            usuario.className = 'text-xs font-bold text-netflix-red underline';
+                            usuario.textContent = '@' + c.usuario;
+
+                            const fonte = document.createElement('span');
+                            fonte.className = 'text-[10px] bg-red-900 px-2 py-0.5 rounded text-red-100 uppercase font-black';
+                            fonte.textContent = c.fonte;
+
+                            meta.appendChild(usuario);
+                            meta.appendChild(fonte);
+                            card.appendChild(texto);
+                            card.appendChild(meta);
+                            hypeGrid.appendChild(card);
                         }});
                     }}
 
-                    // Render Videos
+                    // Render Videos (usando escapeHtml para prevenir XSS)
                     if (cat.videos) {{
                         cat.videos.forEach(v => {{
-                            const videoId = v.url.split('v=')[1];
-                            videoGrid.innerHTML += `
-                                <div class="group border border-gray-900 p-2 rounded-2xl hover:bg-gray-900 transition-all">
-                                    <div class="relative rounded-xl overflow-hidden mb-4 aspect-video">
-                                        <img src="https://img.youtube.com/vi/${{videoId}}/mqdefault.jpg" class="w-full grayscale group-hover:grayscale-0 transition-all duration-700">
-                                    </div>
-                                    <h3 class="font-bold text-sm text-gray-200">${{v.titulo}}</h3>
-                                    <p class="text-[10px] text-netflix-red font-black mt-1 uppercase">${{cat.categoria}}</p>
-                                </div>
-                            `;
+                            const urlParams = new URLSearchParams(v.url.split('?')[1] || '');
+                            const videoId = escapeHtml(urlParams.get('v') || '');
+
+                            const wrapper = document.createElement('div');
+                            wrapper.className = 'group border border-gray-900 p-2 rounded-2xl hover:bg-gray-900 transition-all';
+
+                            const imgWrapper = document.createElement('div');
+                            imgWrapper.className = 'relative rounded-xl overflow-hidden mb-4 aspect-video';
+
+                            const img = document.createElement('img');
+                            img.src = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
+                            img.className = 'w-full grayscale group-hover:grayscale-0 transition-all duration-700';
+                            img.alt = escapeHtml(v.titulo);
+
+                            const titulo = document.createElement('h3');
+                            titulo.className = 'font-bold text-sm text-gray-200';
+                            titulo.textContent = v.titulo;
+
+                            const categoria = document.createElement('p');
+                            categoria.className = 'text-[10px] text-netflix-red font-black mt-1 uppercase';
+                            categoria.textContent = cat.categoria;
+
+                            imgWrapper.appendChild(img);
+                            wrapper.appendChild(imgWrapper);
+                            wrapper.appendChild(titulo);
+                            wrapper.appendChild(categoria);
+                            videoGrid.appendChild(wrapper);
                         }});
                     }}
 
-                    // Render Provas
+                    // Render Provas (usando textContent e href validado para prevenir XSS)
                     if (cat.provas) {{
-                        let provasHtml = `<div class="mb-4"><span class="text-netflix-red font-bold">📁 ${{cat.categoria}}</span><div class="ml-4 space-y-1 mt-1">`;
+                        const catDiv = document.createElement('div');
+                        catDiv.className = 'mb-4';
+
+                        const catLabel = document.createElement('span');
+                        catLabel.className = 'text-netflix-red font-bold';
+                        catLabel.textContent = '📁 ' + cat.categoria;
+
+                        const provasList = document.createElement('div');
+                        provasList.className = 'ml-4 space-y-1 mt-1';
+
                         cat.provas.forEach(p => {{
-                            provasHtml += `<div class="text-gray-500">📄 <a href="${{p.url}}" target="_blank" class="hover:text-white">${{p.titulo}} (${{p.ano}})</a></div>`;
+                            const item = document.createElement('div');
+                            item.className = 'text-gray-500';
+
+                            const link = document.createElement('a');
+                            // Valida que a URL começa com http/https antes de atribuir
+                            const safeUrl = (p.url && /^https?:\/\//i.test(p.url)) ? p.url : '#';
+                            link.href = safeUrl;
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
+                            link.className = 'hover:text-white';
+                            link.textContent = p.titulo + ' (' + p.ano + ')';
+
+                            item.appendChild(document.createTextNode('📄 '));
+                            item.appendChild(link);
+                            provasList.appendChild(item);
                         }});
-                        provasHtml += `</div></div>`;
-                        provasTree.innerHTML += provasHtml;
+
+                        catDiv.appendChild(catLabel);
+                        catDiv.appendChild(provasList);
+                        provasTree.appendChild(catDiv);
                     }}
                 }});
 
@@ -155,5 +223,6 @@ def generate_dynamic_blog_html(output_path, github_user="NOME_USUARIO", github_r
     print(f"✅ Relatório DINÂMICO gerado em: {output_path}")
 
 if __name__ == "__main__":
-    out_path = r"c:\Users\Jarvis\Downloads\Estudo Concursos\relatorio_blogspot_dinamico.html"
-    generate_dynamic_blog_html(out_path)
+    # Caminho de saída relativo ao diretório do próprio script (portável e seguro)
+    out_path = Path(__file__).parent / "relatorio_blogspot_dinamico.html"
+    generate_dynamic_blog_html(str(out_path))
